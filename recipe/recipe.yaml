@@ -1,0 +1,46 @@
+schema_version: 1
+
+context:
+  name: de-studiensuche
+  version: "0.1.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/de-studiensuche-${{ version }}.tar.gz
+  sha256: 5e37f916879df19215210eb32fbeb64e7bec70fde7a005902785b5eeebeb0383
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - poetry
+  run:
+    - python >=${{ python_min }}
+    - python-dateutil
+    - urllib3 >=1.25.3
+
+tests:
+  - python:
+      imports:
+        - deutschland.studiensuche
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Arbeitsagentur Studiensuche API
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+  homepage: https://github.com/bundesAPI/studiensuche-api
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
